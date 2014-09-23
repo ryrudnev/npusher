@@ -7,7 +7,7 @@ var express    = require('express')
 
 var app = express()
     , server = http.createServer(app)
-    , bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    , bayeux = new faye.NodeAdapter({mount: '/faye', timeout: config.get('timeout')});
 
 bayeux.on('handshake', function(clientId) {
   logger.info('New client with socket id %s connected', clientId);
@@ -21,11 +21,11 @@ bayeux.on('unsubscribe', function(clientId, channel) {
   logger.info('Client with socket id %s unsubscribe in app channel - %s', clientId, channel);
 });
 
-bayeux.attach(server.listen(config.get('port'), function() {
-    logger.info('Server listening on port %d', server.address().port);
+bayeux.attach(server.listen(config.get('port'), config.get('hostname'), function() {
+    logger.info('Server started on port %s at %s', server.address().port, server.address().address);
 }));
 
-app.use(bodyParser.urlencoded({extend:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 var router = express.Router();

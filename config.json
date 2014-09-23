@@ -1,3 +1,10 @@
 {
-    "port": "1337"
+    "hostname": "localhost",
+    "port": "1337",
+    "timeout" : 45,
+    "logger": {
+        "console": true,
+        "logs"   : "./logs/all-logs.log",
+        "errors" : "./logs/exceptions.log"
+    }
 }
