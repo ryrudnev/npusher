@@ -10,9 +10,12 @@ var app = express()
     , router = api(bayeux)
     , server = http.createServer(app);
 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+// connect rest api 
 app.use('/api', router);
+
 app.use(function(err, req, res, next){
     logger.warn(err.stack);
     res.status(500).end();
