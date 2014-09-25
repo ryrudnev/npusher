@@ -1,6 +1,6 @@
 {
     "secret": "super",
-    "user": "super",
+    "id": "api",
     "hostname": "localhost",
     "port": "1337",
     "timeout" : 45,

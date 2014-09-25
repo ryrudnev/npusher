@@ -11,7 +11,7 @@ var app = express()
     , router = api(bayeux)
     , server = http.createServer(app)
     , auth = basicAuth(function(user, secret){
-        return secret === config.get('secret') && user === config.get('user');
+        return secret === config.get('secret') && user === config.get('id');
     });
 
 app.use(bodyParser.urlencoded({extended: true}));

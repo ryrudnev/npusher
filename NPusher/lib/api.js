@@ -48,7 +48,7 @@ module.exports = function (bayeux) {
 // POST /apps/:app/users/:user
 // data (required) - data
 // channel - name of channel
-// Response is an JSON with success (true or false).
+// Response is an empty JSON if success.
 // --------------------------
     router.route('/apps/:app/users/:user')
             .post(function (req, res, next) {
