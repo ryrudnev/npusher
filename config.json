@@ -1,5 +1,6 @@
 {
-    "secret": "sss",
+    "secret": "super",
+    "user": "super",
     "hostname": "localhost",
     "port": "1337",
     "timeout" : 45,

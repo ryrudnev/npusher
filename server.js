@@ -4,17 +4,21 @@ var express = require('express')
     , api = require('./lib/api')
     , bayeux = require('./lib/bayeux')()
     , logger = require('./lib/log')()
-    , config = require('./lib/config');
+    , config = require('./lib/config')
+    , basicAuth = require('basic-auth-connect');
 
 var app = express()
     , router = api(bayeux)
-    , server = http.createServer(app);
+    , server = http.createServer(app)
+    , auth = basicAuth(function(user, secret){
+        return secret === config.get('secret') && user === config.get('user');
+    });
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// connect rest api
-app.use('/api', router);
+// connect rest api with authentication
+app.use('/api', auth, router);
 
 app.use(function (req, res, next) {
     logger.warn('Error: status - 404, message - Not Found');
