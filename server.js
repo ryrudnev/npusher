@@ -13,12 +13,19 @@ var app = express()
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// connect rest api 
+// connect rest api
 app.use('/api', router);
 
-app.use(function(err, req, res, next){
-    logger.warn(err.stack);
-    res.status(500).end();
+app.use(function (req, res, next) {
+    logger.warn('Error: status - 404, message - Not Found');
+
+    res.sendStatus(404).end();
+});
+
+app.use(function (err, req, res, next) {
+    logger.warn('Error: status - 500, message - Internal Server Error');
+
+    res.sendStatus(500).end();
 });
 
 server.listen(config.get('port'), config.get('hostname'), function () {
