@@ -1,4 +1,30 @@
 {
-    "name": "npusher",
-    "version": "0.0.1"
+  "name": "NPusher",
+  "version": "0.0.1",
+  "description": "Node.js implementation of a simple push server.",
+  "main": "server.js",
+  "dependencies": {
+    "basic-auth-connect": "^1.0.0",
+    "body-parser": "^1.8.4",
+    "express": "^4.9.4",
+    "faye": "^1.0.3",
+    "nconf": "^0.6.9",
+    "winston": "^0.8.0",
+    "http": "^0.0.0",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gitolite@gitlab.vgg.ru:pusher.git"
+  },
+  "keywords": [
+    "pusher"
+  ],
+  "author": "Rudnev R.",
+  "license": "MIT"
 }
