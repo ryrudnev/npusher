@@ -15,7 +15,7 @@ class Pusher {
 
     /**
      * Initializes a new Pusher with app, token, secret, host and port.
-     * 
+     *
      * @param string|int $app name of application
      * @param string     $token name of user (id)
      * @param string     $secret key for authentication
@@ -29,7 +29,7 @@ class Pusher {
         $this->_config['token'] = $token;
         $this->_config['secret'] = $secret;
 
-        $this->_config['url'] = $this->_config['server'] . ':' . $this->_config['port'] .'/api/apps/' . $this->_config['app'];
+        $this->_config['url'] = $this->_config['server'] . ':' . $this->_config['port'] . '/api/apps/' . $this->_config['app'];
     }
 
     /**
@@ -42,13 +42,13 @@ class Pusher {
     public function trigger($path, $data) {
         $full_url = $this->_config['url'] . $path;
 
-            $context = stream_context_create(array(
+        $context = stream_context_create(array(
             'http' => array(
-                'method'  => 'POST',
-                'header'  => array(
-                    'Authorization: Basic ' . base64_encode($this->_config['token'].':'.$this->_config['secret']),
+                'method' => 'POST',
+                'header' => array(
+                    'Authorization: Basic ' . base64_encode($this->_config['token'] . ':' . $this->_config['secret']),
                     'Content-type: application/x-www-form-urlencoded'
-                    ),
+                ),
                 'content' => http_build_query($data)
             )
         ));
@@ -61,4 +61,5 @@ class Pusher {
 
         return array('body' => $body, 'status' => $status[1]);
     }
+
 }
