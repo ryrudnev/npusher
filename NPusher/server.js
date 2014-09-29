@@ -32,8 +32,8 @@ app.use(function (err, req, res, next) {
     res.sendStatus(500).end();
 });
 
-server.listen(config.get('port'), config.get('hostname'), function () {
+bayeux.attach(server);
+
+server.listen(Number(config.get('port')), config.get('hostname'), function () {
     logger.info('Server started on port %s at %s', server.address().port, server.address().address);
 });
-
-bayeux.attach(server);

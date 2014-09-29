@@ -47,7 +47,7 @@ module.exports = function (bayeux) {
 // Sending a message to a user on the concrete app or all aps
 // POST /apps/:app/users/:user
 // data (required) - data
-// channel - name of channel
+// channel - name of channel (if not specified then all channel for that user)
 // Response is an empty JSON if success.
 // --------------------------
     router.route('/apps/:app/users/:user')
@@ -57,9 +57,9 @@ module.exports = function (bayeux) {
                     return next(new error.HttpError(400, 'The data field is not declared'));
                 }
 
-                logger.info('Sending a message to user %s on %s:%s', req.params.user, req.params.app || 'apps', req.body.channel || '');
+                logger.info('[SENDING] %s -> %s:%s', req.params.user, req.params.app || 'apps', req.body.channel || '*');
 
-                var event = '/' + req.params.app + '/' + (req.body.channel || 'default') + '/' + req.params.user;
+                var event = '/' + req.params.app + '/' + req.params.user + '/' + (req.body.channel || '*');
 
                 try {
                     bayeux.getClient().publish(event, {text: data});

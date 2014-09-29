@@ -3,7 +3,7 @@
     "id": "api",
     "hostname": "localhost",
     "port": "1337",
-    "timeout" : 45,
+    "timeout" : 20,
     "logger": {
         "console": true,
         "filename" : "./logs/all-logs.log"

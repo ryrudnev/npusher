@@ -47,19 +47,19 @@ module.exports = function () {
     bayeux.getClient().addExtension(clientAuth);
 
     bayeux.on('handshake', function (clientId) {
-        logger.info('New client with socket id %s connected', clientId);
+        logger.info('[HANDSHAKE] %s', clientId);
+    });
+
+    bayeux.on('disconnect', function (clientId) {
+        logger.info('[DISCONNECT] %s', clientId);
     });
 
     bayeux.on('subscribe', function (clientId, channel) {
-        logger.info('Client with socket id %s subscribe in channel - %s', clientId, channel);
+        logger.info('[SUBSCRIBE] %s -> %s', clientId, channel);
     });
 
     bayeux.on('unsubscribe', function (clientId, channel) {
-        logger.info('Client with socket id %s unsubscribe in channel - %s', clientId, channel);
-    });
-
-    bayeux.on('/foo', function(data){
-        logger.info('Client send to server message');
+        logger.info('[UNSUBSCRIBE] %s -> %s', clientId, channel);
     });
 
     return bayeux;
