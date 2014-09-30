@@ -31,7 +31,7 @@ module.exports = function (bayeux) {
                     return next(new error.HttpError(400, 'The data field is not declared'));
                 }
 
-                logger.info('Sending a data to %s:%s', req.params.app, req.params.channel);
+                logger.info('[SENDING] -> %s:%s', req.params.app, req.params.channel);
 
                 var event = '/' + req.params.app + '/' + req.params.channel;
 

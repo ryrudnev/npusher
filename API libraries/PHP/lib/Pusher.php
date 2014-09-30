@@ -1,5 +1,11 @@
 <?php
 
+// Pusher execption
+class PusherException extends Exception
+{
+    
+}
+
 /**
  * Description of Pusher
  *
@@ -23,6 +29,10 @@ class Pusher {
      * @param int        $port port of pusher
      */
     public function __construct($app, $token, $secret, $host, $port) {
+        if (!extension_loaded('curl') || !extension_loaded('json')) {
+            throw new PusherException('There is missing dependant extensions - need cUrl and JSON');
+        }
+
         $this->_config['app'] = $app;
         $this->_config['server'] = $host;
         $this->_config['port'] = $port;
@@ -37,29 +47,34 @@ class Pusher {
      *
      * @param string $path event path
      * @param array $data sending data
-     * @return array response
+     * @return array response body and status
      */
-    public function trigger($path, $data) {
+    public function trigger($path, array $data) {
+        $json = json_encode($data);
+        
         $full_url = $this->_config['url'] . $path;
+        
+        $ch = curl_init($full_url);
+        
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($this->_config['token'] . ':' . $this->_config['secret']),
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($json))
+        );
+        
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
-        $context = stream_context_create(array(
-            'http' => array(
-                'method' => 'POST',
-                'header' => array(
-                    'Authorization: Basic ' . base64_encode($this->_config['token'] . ':' . $this->_config['secret']),
-                    'Content-type: application/x-www-form-urlencoded'
-                ),
-                'content' => http_build_query($data)
-            )
-        ));
+        $response = array();
+        
+        $response['body'] = curl_exec($ch);
+        $response['status'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        $body = file_get_contents($full_url, false, $context);
-
-        $status = array();
-
-        preg_match('#HTTP/\d+\.\d+ (\d+)#', $http_response_header[0], $status);
-
-        return array('body' => $body, 'status' => $status[1]);
+        curl_close($ch);
+        
+        return $response;
     }
-
 }
