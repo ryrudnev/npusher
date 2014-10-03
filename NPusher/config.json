@@ -1,7 +1,7 @@
 {
     "secret": "b3986952b145da5f0e4bd416f3b948e9864b57895675886c1deb83c16a9beadc",
     "id": "unico",
-    "hostname": "188.247.40.226",
+    "hostname": "pusher.vgg.ru",
     "port": "8000",
     "timeout" : 20,
     "logger": {
